@@ -31,7 +31,7 @@ namespace Stationeers.Addons.Modules.LiveReload
             if (!_isRecompiling)
                 return;
 
-            ImGuiLoadingScreen.ShowLoadingScreen(null, ImGuiLoadingScreen.Singleton.State, 0.1f);
+            ImGuiLoadingScreen.SetProgress(0.1f);
         }
 
         /// <inheritdoc />
@@ -77,9 +77,9 @@ namespace Stationeers.Addons.Modules.LiveReload
             yield return null;
 
             // Update caption
-            var uniTask = ImGuiLoadingScreen.Singleton.SetState("Live Reload - Unloading plugins...");
+            var uniTask = ImGuiLoadingScreen.SetState("Live Reload - Unloading plugins...");
             yield return uniTask;
-            uniTask = ImGuiLoadingScreen.Singleton.SetProgress(0.1f);
+            uniTask = ImGuiLoadingScreen.SetProgress(0.1f);
             yield return uniTask;
 
             // Make sure that we show the progress bar
@@ -92,27 +92,27 @@ namespace Stationeers.Addons.Modules.LiveReload
             LoaderManager.Instance.Harmony.Initialize();
             LoaderManager.Instance.PluginLoader.UnloadAllPlugins();
 
-            uniTask = ImGuiLoadingScreen.Singleton.SetState("Live Reload - Recompiling plugins...");
+            uniTask = ImGuiLoadingScreen.SetState("Live Reload - Recompiling plugins...");
             yield return uniTask;
-            uniTask = ImGuiLoadingScreen.Singleton.SetProgress(0.25f);
+            uniTask = ImGuiLoadingScreen.SetProgress(0.25f);
             yield return uniTask;
             
             AddonsLogger.Log("Recompiling plugins");
             yield return new WaitForSeconds(0.1f);
             yield return LoaderManager.Instance.PluginCompiler.Load();
 
-            uniTask = ImGuiLoadingScreen.Singleton.SetState("Live Reload - Reloading plugins...");
+            uniTask = ImGuiLoadingScreen.SetState("Live Reload - Reloading plugins...");
             yield return uniTask;
-            uniTask = ImGuiLoadingScreen.Singleton.SetProgress(0.50f);
+            uniTask = ImGuiLoadingScreen.SetProgress(0.50f);
             yield return uniTask;
             
             AddonsLogger.Log("Reloading plugins");
             yield return new WaitForSeconds(0.1f);
             yield return LoaderManager.Instance.PluginLoader.Load();
 
-            uniTask = ImGuiLoadingScreen.Singleton.SetState("Live Reload - Patching plugins...");
+            uniTask = ImGuiLoadingScreen.SetState("Live Reload - Patching plugins...");
             yield return uniTask;
-            uniTask = ImGuiLoadingScreen.Singleton.SetProgress(0.50f);
+            uniTask = ImGuiLoadingScreen.SetProgress(0.50f);
             yield return uniTask;
 
             AddonsLogger.Log("Re-patching game using harmony");

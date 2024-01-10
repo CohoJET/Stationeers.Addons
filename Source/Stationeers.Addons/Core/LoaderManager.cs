@@ -136,8 +136,8 @@ namespace Stationeers.Addons.Core
         {
             if (!_isLoading) 
                 return;
-            
-            ImGuiLoadingScreen.ShowLoadingScreen(null, ImGuiLoadingScreen.Singleton.State, 0.1f);
+
+            ImGuiLoadingScreen.SetProgress(0.1f);
         }
 
         private IEnumerator Start()
@@ -163,10 +163,10 @@ namespace Stationeers.Addons.Core
                     var progress = Mathf.Clamp01(numModules / (float)moduleIdx);
 
                     // Update caption
-                    var uniTask = ImGuiLoadingScreen.Singleton.SetState(module.LoadingCaption);
+                    var uniTask = ImGuiLoadingScreen.SetState(module.LoadingCaption);
                     yield return uniTask;
                     
-                    uniTask = ImGuiLoadingScreen.Singleton.SetProgress(Mathf.Lerp(0.35f, 1.0f, progress));
+                    uniTask = ImGuiLoadingScreen.SetProgress(Mathf.Lerp(0.35f, 1.0f, progress));
                     yield return uniTask;
 
                     yield return module.Load();
